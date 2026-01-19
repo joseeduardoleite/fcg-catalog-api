@@ -3,18 +3,18 @@
 namespace FiapCloudGames.Catalog.Domain.Events;
 
 [ExcludeFromCodeCoverage]
-public sealed class PaymentApprovedEvent
+public sealed class PaymentRejectedEvent
 {
     public Guid UsuarioId { get; set; }
     public Guid JogoId { get; set; }
-    public Guid TransacaoId { get; set; }
+    public string Motivo { get; set; } = string.Empty;
 
-    public PaymentApprovedEvent() { }
+    public PaymentRejectedEvent() { }
 
-    public PaymentApprovedEvent(Guid usuarioId, Guid jogoId, Guid transacaoId)
+    public PaymentRejectedEvent(Guid usuarioId, Guid jogoId, string motivo)
     {
         UsuarioId = usuarioId;
         JogoId = jogoId;
-        TransacaoId = transacaoId;
+        Motivo = motivo;
     }
 }

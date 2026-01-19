@@ -7,7 +7,9 @@ using System.Diagnostics.CodeAnalysis;
 namespace FiapCloudGames.Catalog.Infrastructure.Repositories.v1;
 
 [ExcludeFromCodeCoverage]
-public sealed class BibliotecaJogoRepository(AppDbContext context) : IBibliotecaJogoRepository
+public sealed class BibliotecaJogoRepository(
+    AppDbContext context,
+    IJogoRepository jogoRepository) : IBibliotecaJogoRepository
 {
     public async Task<IEnumerable<BibliotecaJogo>> ObterBibliotecasDeJogosAsync(CancellationToken cancellationToken)
         => await context.BibliotecasDeJogos
@@ -27,7 +29,7 @@ public sealed class BibliotecaJogoRepository(AppDbContext context) : IBiblioteca
             .Include(b => b.Jogos)
             .FirstOrDefaultAsync(biblioteca => biblioteca.UsuarioId == usuarioId, cancellationToken);
 
-    public async Task<BibliotecaJogo> AdicionarJogoABibliotecaDeJogosAsync(Guid usuarioId, Jogo jogoDto, CancellationToken cancellationToken)
+    public async Task<BibliotecaJogo> ConfirmarCompraAsync(Guid usuarioId, Guid jogoId, CancellationToken cancellationToken)
     {
         BibliotecaJogo? biblioteca = await ObterBibliotecaDeJogosPorUsuarioIdAsync(usuarioId, cancellationToken);
 
@@ -41,10 +43,13 @@ public sealed class BibliotecaJogoRepository(AppDbContext context) : IBiblioteca
             await context.BibliotecasDeJogos.AddAsync(biblioteca, cancellationToken);
         }
 
-        if (biblioteca.Jogos.Any(jogo => jogo.Id == jogoDto.Id))
+        if (biblioteca.Jogos.Any(jogo => jogo.Id == jogoId))
             throw new InvalidOperationException("Jogo já existe na biblioteca");
 
-        biblioteca.Jogos.Add(jogoDto);
+        Jogo jogo = await jogoRepository.ObterJogoPorIdAsync(jogoId, cancellationToken)
+            ?? throw new KeyNotFoundException("Jogo não encontrado no catálogo");
+
+        biblioteca.Jogos.Add(jogo);
 
         await context.SaveChangesAsync(cancellationToken);
 

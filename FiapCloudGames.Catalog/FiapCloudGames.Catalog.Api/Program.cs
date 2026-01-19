@@ -8,6 +8,7 @@ using FiapCloudGames.Catalog.Application;
 using FiapCloudGames.Catalog.Application.Validators;
 using FiapCloudGames.Catalog.Infrastructure;
 using FiapCloudGames.Catalog.Infrastructure.Data;
+using FiapCloudGames.Catalog.Infrastructure.Messaging;
 using FluentValidation;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -87,6 +88,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddMassTransit(x =>
 {
+    x.AddConsumer<PaymentApprovedEventConsumer>();
+    x.AddConsumer<PaymentRejectedEventConsumer>();
+
     x.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host(builder.Configuration["RabbitMQ:Host"], "/", h =>
@@ -94,6 +98,18 @@ builder.Services.AddMassTransit(x =>
             h.Username(builder.Configuration["RabbitMQ:Username"]!);
             h.Password(builder.Configuration["RabbitMQ:Password"]!);
         });
+
+        /*cfg.ReceiveEndpoint("payment-approved-queue", e =>
+        {
+            e.ConfigureConsumer<PaymentApprovedEventConsumer>(context);
+        });
+
+        cfg.ReceiveEndpoint("payment-rejected-queue", e =>
+        {
+            e.ConfigureConsumer<PaymentRejectedEventConsumer>(context);
+        });*/
+
+        cfg.ConfigureEndpoints(context);
     });
 });
 

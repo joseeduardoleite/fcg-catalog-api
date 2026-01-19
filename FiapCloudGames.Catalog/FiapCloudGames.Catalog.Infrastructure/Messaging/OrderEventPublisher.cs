@@ -8,6 +8,6 @@ namespace FiapCloudGames.Catalog.Infrastructure.Messaging;
 [ExcludeFromCodeCoverage]
 public class OrderEventPublisher(IPublishEndpoint publishEndpoint) : IOrderEventPublisher
 {
-    public Task PublishOrderPlacedEvent(OrderPlacedEvent orderPlacedEvent, CancellationToken cancellationToken)
-        => publishEndpoint.Publish(orderPlacedEvent, cancellationToken);
+    public async Task PublishOrderPlacedEvent(OrderPlacedEvent orderPlacedEvent, CancellationToken cancellationToken)
+        => await publishEndpoint.Publish(orderPlacedEvent, cancellationToken);
 }
