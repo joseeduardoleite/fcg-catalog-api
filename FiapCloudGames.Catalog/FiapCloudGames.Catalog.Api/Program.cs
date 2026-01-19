@@ -99,16 +99,6 @@ builder.Services.AddMassTransit(x =>
             h.Password(builder.Configuration["RabbitMQ:Password"]!);
         });
 
-        /*cfg.ReceiveEndpoint("payment-approved-queue", e =>
-        {
-            e.ConfigureConsumer<PaymentApprovedEventConsumer>(context);
-        });
-
-        cfg.ReceiveEndpoint("payment-rejected-queue", e =>
-        {
-            e.ConfigureConsumer<PaymentRejectedEventConsumer>(context);
-        });*/
-
         cfg.ConfigureEndpoints(context);
     });
 });
