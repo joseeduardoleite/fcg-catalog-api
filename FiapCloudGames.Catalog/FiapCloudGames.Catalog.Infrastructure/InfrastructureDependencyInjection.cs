@@ -1,5 +1,7 @@
-﻿using FiapCloudGames.Catalog.Domain.Repositories.v1;
+﻿using FiapCloudGames.Catalog.Application.Interfaces.Messaging;
+using FiapCloudGames.Catalog.Domain.Repositories.v1;
 using FiapCloudGames.Catalog.Infrastructure.Auth;
+using FiapCloudGames.Catalog.Infrastructure.Messaging;
 using FiapCloudGames.Catalog.Infrastructure.Repositories.v1;
 using FiapCloudGames.Catalog.Infrastructure.Seed;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -18,6 +20,7 @@ public static class InfrastructureDependencyInjection
     {
         services.AddScoped<IJogoRepository, JogoRepository>();
         services.AddScoped<IBibliotecaJogoRepository, BibliotecaJogoRepository>();
+        services.AddScoped<IOrderEventPublisher, OrderEventPublisher>();
 
         services.AddHostedService<DataSeederHostedService>();
 

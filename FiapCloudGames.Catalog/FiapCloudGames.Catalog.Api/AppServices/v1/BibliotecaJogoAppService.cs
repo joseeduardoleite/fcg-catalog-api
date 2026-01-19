@@ -17,8 +17,8 @@ public sealed class BibliotecaJogoAppService(IBibliotecaJogoService bibliotecaJo
     public async Task<BibliotecaJogoDto> ObterBibliotecaDeJogosPorUsuarioIdAsync(Guid usuarioId, CancellationToken cancellationToken)
         => mapper.Map<BibliotecaJogoDto>(await bibliotecaJogoService.ObterBibliotecaDeJogosPorUsuarioIdAsync(usuarioId, cancellationToken));
 
-    public async Task<BibliotecaJogoDto> AdicionarJogoABibliotecaDeJogosAsync(Guid usuarioId, JogoDto jogoDto, CancellationToken cancellationToken)
-        => mapper.Map<BibliotecaJogoDto>(await bibliotecaJogoService.AdicionarJogoABibliotecaDeJogosAsync(usuarioId, mapper.Map<Jogo>(jogoDto), cancellationToken));
+    public async Task SolicitarCompraAsync(Guid usuarioId, JogoDto jogoDto, CancellationToken cancellationToken)
+        => await bibliotecaJogoService.SolicitarCompraAsync(usuarioId, mapper.Map<Jogo>(jogoDto), cancellationToken);
 
     public async Task<BibliotecaJogoDto> RemoverJogoBibliotecaJogosAsync(Guid usuarioId, Guid idJogo, CancellationToken cancellationToken)
         => mapper.Map<BibliotecaJogoDto>(await bibliotecaJogoService.RemoverJogoBibliotecaJogosAsync(usuarioId, idJogo, cancellationToken));

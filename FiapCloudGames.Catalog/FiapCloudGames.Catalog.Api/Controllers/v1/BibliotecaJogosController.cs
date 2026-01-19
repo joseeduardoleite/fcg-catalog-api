@@ -99,25 +99,22 @@ public sealed class BibliotecaJogosController(IBibliotecaJogoAppService bibliote
     /// <response code="403">Privilégios insuficientes</response>
     /// <returns>Jogo adicionado à biblioteca de jogos</returns>
     [HttpPost("{usuarioId:guid}")]
-    [ProducesResponseType(typeof(BibliotecaJogoDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(BibliotecaJogoDto), StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public async Task<ActionResult<BibliotecaJogoDto>> AdicionarJogoAsync([FromRoute] Guid usuarioId, [FromBody] JogoDto jogoDto, CancellationToken cancellationToken)
+    public async Task<ActionResult> SolicitarCompraAsync([FromRoute] Guid usuarioId, [FromBody] JogoDto jogoDto, CancellationToken cancellationToken)
     {
         ValidationResult validationResult = await validator.ValidateAsync(jogoDto, cancellationToken);
 
         if (!validationResult.IsValid)
             return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
 
-        BibliotecaJogoDto bibliotecaDeJogos = await bibliotecaJogoAppService.AdicionarJogoABibliotecaDeJogosAsync(usuarioId, jogoDto, cancellationToken);
-
-        if (!IsOwnerOrAdmin(bibliotecaDeJogos.UsuarioId))
+        if (!IsOwnerOrAdmin(usuarioId))
             return Forbid();
 
-        return Created(
-            uri: $"v1/biblioteca-jogos",
-            value: bibliotecaDeJogos
-        );
+        await bibliotecaJogoAppService.SolicitarCompraAsync(usuarioId, jogoDto, cancellationToken);
+
+        return Accepted();
     }
 
     /// <summary>

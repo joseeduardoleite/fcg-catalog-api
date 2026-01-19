@@ -66,23 +66,22 @@ public class BibliotecaJogosControllerTests
     }
 
     [Fact]
-    public async Task AdicionarJogoAsync_Owner_ReturnsCreated()
+    public async Task SolicitarCompraAsync_Owner_ReturnsAccepted()
     {
         var usuarioId = Guid.NewGuid();
         var jogoId = Guid.NewGuid();
 
         var jogo = new JogoDto(jogoId, "Jogo X", DateTime.UtcNow, 199.9m);
-        var biblioteca = new BibliotecaJogoDto(Guid.NewGuid(), usuarioId, "Eduardo", new List<JogoDto> { jogo });
 
         _jogoValidatorMock.Setup(v => v.ValidateAsync(It.IsAny<JogoDto>(), It.IsAny<CancellationToken>()))
                           .ReturnsAsync(new ValidationResult());
 
-        _bibliotecaJogoAppServiceMock.Setup(s => s.AdicionarJogoABibliotecaDeJogosAsync(usuarioId, jogo, It.IsAny<CancellationToken>()))
-                    .ReturnsAsync(biblioteca);
+        _bibliotecaJogoAppServiceMock.Setup(s => s.SolicitarCompraAsync(usuarioId, jogo, It.IsAny<CancellationToken>()))
+                    .Returns(Task.CompletedTask);
 
         _controller.SetUserClaims(usuarioId, "Usuario");
 
-        var result = await _controller.AdicionarJogoAsync(usuarioId, jogo, CancellationToken.None);
+        var result = await _controller.SolicitarCompraAsync(usuarioId, jogo, CancellationToken.None);
 
         Assert.NotNull(result);
     }
