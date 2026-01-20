@@ -1,4 +1,4 @@
-﻿using FiapCloudGames.Catalog.Domain.Events;
+﻿using FiapCloudGames.Contracts.Events;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;

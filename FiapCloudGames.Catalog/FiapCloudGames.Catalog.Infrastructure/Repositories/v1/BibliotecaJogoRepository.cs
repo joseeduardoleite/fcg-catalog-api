@@ -7,9 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace FiapCloudGames.Catalog.Infrastructure.Repositories.v1;
 
 [ExcludeFromCodeCoverage]
-public sealed class BibliotecaJogoRepository(
-    AppDbContext context,
-    IJogoRepository jogoRepository) : IBibliotecaJogoRepository
+public sealed class BibliotecaJogoRepository(AppDbContext context) : IBibliotecaJogoRepository
 {
     public async Task<IEnumerable<BibliotecaJogo>> ObterBibliotecasDeJogosAsync(CancellationToken cancellationToken)
         => await context.BibliotecasDeJogos
@@ -46,7 +44,7 @@ public sealed class BibliotecaJogoRepository(
         if (biblioteca.Jogos.Any(jogo => jogo.Id == jogoId))
             throw new InvalidOperationException("Jogo já existe na biblioteca");
 
-        Jogo jogo = await jogoRepository.ObterJogoPorIdAsync(jogoId, cancellationToken)
+        Jogo jogo = await context.Jogos.FirstOrDefaultAsync(j => j.Id == jogoId, cancellationToken)
             ?? throw new KeyNotFoundException("Jogo não encontrado no catálogo");
 
         biblioteca.Jogos.Add(jogo);

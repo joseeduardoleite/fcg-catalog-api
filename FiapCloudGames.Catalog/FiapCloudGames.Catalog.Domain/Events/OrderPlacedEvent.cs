@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace FiapCloudGames.Catalog.Domain.Events;
+namespace FiapCloudGames.Contracts.Events;
 
 [ExcludeFromCodeCoverage]
 public class OrderPlacedEvent

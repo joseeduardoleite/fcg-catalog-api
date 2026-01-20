@@ -1,5 +1,5 @@
 ﻿using FiapCloudGames.Catalog.Application.Interfaces.Messaging;
-using FiapCloudGames.Catalog.Domain.Events;
+using FiapCloudGames.Contracts.Events;
 using MassTransit;
 using System.Diagnostics.CodeAnalysis;
 

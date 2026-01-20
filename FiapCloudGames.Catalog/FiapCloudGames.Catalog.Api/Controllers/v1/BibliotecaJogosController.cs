@@ -89,7 +89,7 @@ public sealed class BibliotecaJogosController(IBibliotecaJogoAppService bibliote
     }
 
     /// <summary>
-    /// Adiciona um jogo à biblioteca de jogos (Admins - Podem adicionar, Usuários - Somente em sua própria biblioteca)
+    /// Solicita a compra de um jogo para adicioná-lo à biblioteca de jogos (Admins - Podem adicionar, Usuários - Somente em sua própria biblioteca)
     /// </summary>
     /// <param name="usuarioId">Id do usuário</param>
     /// <param name="jogoDto">Jogo à ser adicionado</param>

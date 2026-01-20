@@ -1,4 +1,4 @@
-﻿using FiapCloudGames.Catalog.Domain.Events;
+﻿using FiapCloudGames.Contracts.Events;
 
 namespace FiapCloudGames.Catalog.Application.Interfaces.Messaging;
 
