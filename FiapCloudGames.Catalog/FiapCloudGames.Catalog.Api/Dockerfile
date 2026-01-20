@@ -3,7 +3,7 @@ WORKDIR /src
 
 COPY . .
 RUN dotnet restore
-RUN dotnet publish src/FiapCloudGames.Catalog.Api/FiapCloudGames.Catalog.Api.csproj \
+RUN dotnet publish FiapCloudGames.Catalog.Api/FiapCloudGames.Catalog.Api.csproj \
     -c Release -o /app/publish /p:UseAppHost=false
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
