@@ -90,6 +90,7 @@ builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<PaymentApprovedEventConsumer>();
     x.AddConsumer<PaymentRejectedEventConsumer>();
+    x.AddConsumer<UserCreatedEventConsumer>();
 
     x.UsingRabbitMq((context, cfg) =>
     {
@@ -109,7 +110,20 @@ builder.Services.AddMassTransit(x =>
             );
         });
 
-        cfg.ConfigureEndpoints(context);
+        cfg.ReceiveEndpoint("catalog-paymentapproved-queue", e =>
+        {
+            e.ConfigureConsumer<PaymentApprovedEventConsumer>(context);
+        });
+
+        cfg.ReceiveEndpoint("catalog-paymentrejected-queue", e =>
+        {
+            e.ConfigureConsumer<PaymentRejectedEventConsumer>(context);
+        });
+
+        cfg.ReceiveEndpoint("catalog-usercreated-queue", e =>
+        {
+            e.ConfigureConsumer<UserCreatedEventConsumer>(context);
+        });
     });
 });
 

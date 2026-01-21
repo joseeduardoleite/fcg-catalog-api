@@ -26,16 +26,16 @@ public class BibliotecaJogosControllerTests
         var bibliotecas = new List<BibliotecaJogoDto>
         {
             new(
-                Id: Guid.NewGuid(),
-                UsuarioId: Guid.NewGuid(),
-                UsuarioNome: "Eduardo",
-                Jogos: new List<JogoDto>()
+                id: Guid.NewGuid(),
+                usuarioId: Guid.NewGuid(),
+                usuarioNome: "Eduardo",
+                jogos: new List<JogoDto>()
             ),
             new(
-                Id: Guid.NewGuid(),
-                UsuarioId: Guid.NewGuid(),
-                UsuarioNome: "Francisco",
-                Jogos: new List<JogoDto>()
+                id: Guid.NewGuid(),
+                usuarioId: Guid.NewGuid(),
+                usuarioNome: "Francisco",
+                jogos: new List<JogoDto>()
             )
         };
 

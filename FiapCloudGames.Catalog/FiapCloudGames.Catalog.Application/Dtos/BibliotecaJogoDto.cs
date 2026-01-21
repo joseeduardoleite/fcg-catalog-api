@@ -8,4 +8,20 @@ public class BibliotecaJogoDto
     public IEnumerable<JogoDto>? Jogos { get; set; }
 
     public BibliotecaJogoDto() { }
+
+    public BibliotecaJogoDto(Guid usuarioId, string? usuarioNome, IEnumerable<JogoDto>? jogos)
+    {
+        Id = Guid.NewGuid();
+        UsuarioId = usuarioId;
+        UsuarioNome = usuarioNome;
+        Jogos = jogos;
+    }
+
+    public BibliotecaJogoDto(Guid id, Guid usuarioId, string? usuarioNome, IEnumerable<JogoDto>? jogos)
+    {
+        Id = id;
+        UsuarioId = usuarioId;
+        UsuarioNome = usuarioNome;
+        Jogos = jogos;
+    }
 }

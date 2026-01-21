@@ -29,7 +29,9 @@ public sealed class BibliotecaJogoRepository(AppDbContext context) : IBiblioteca
 
     public async Task<BibliotecaJogo> ConfirmarCompraAsync(Guid usuarioId, Guid jogoId, CancellationToken cancellationToken)
     {
-        BibliotecaJogo? biblioteca = await ObterBibliotecaDeJogosPorUsuarioIdAsync(usuarioId, cancellationToken);
+        BibliotecaJogo? biblioteca = await context.BibliotecasDeJogos
+            .Include(b => b.Jogos)
+            .FirstOrDefaultAsync(b => b.UsuarioId == usuarioId, cancellationToken);
 
         if (biblioteca is null)
         {
